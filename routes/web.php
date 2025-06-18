@@ -7,15 +7,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/home', function () {
+    return view('home');
+})->middleware(['auth', 'verified'])->name('home');
 Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->middleware(['auth', 'verified'])->name('product');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
     Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'addToCart'])->name('cart.add');
     Route::delete('/cart/{id}', [App\Http\Controllers\CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::patch('/cart/{id}', [App\Http\Controllers\CartController::class, 'updateQuantity'])->name('cart.update');
+
+    Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/checkout/success/{order}', [App\Http\Controllers\CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('/checkout/invoice/{order}', [App\Http\Controllers\CheckoutController::class, 'invoice'])->name('checkout.invoice');
+
+    Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history');
+    Route::get('/history/{order}', [App\Http\Controllers\HistoryController::class, 'show'])->name('history.show');
 });
 
 Route::middleware('auth')->group(function () {

@@ -74,10 +74,9 @@
             <div class="mt-6 flex justify-end gap-4">
               <a href="{{ route('product') }}" class="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors duration-300">
                 Lanjut Belanja
-              </a>
-              <button class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300">
+              </a> <a href="{{ route('checkout') }}" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300">
                 Checkout
-              </button>
+              </a>
             </div>
           </div>
           @endif
