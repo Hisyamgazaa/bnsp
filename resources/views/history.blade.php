@@ -31,6 +31,9 @@
                     Total
                   </th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Aksi
                   </th>
                 </tr>
@@ -46,6 +49,27 @@
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    @php
+                      $statusColors = [
+                          'pending' => 'bg-yellow-100 text-yellow-800',
+                          'processing' => 'bg-blue-100 text-blue-800',
+                          'shipped' => 'bg-purple-100 text-purple-800',
+                          'delivered' => 'bg-green-100 text-green-800',
+                          'cancelled' => 'bg-red-100 text-red-800'
+                      ];
+                      $statusLabels = [
+                          'pending' => 'Menunggu',
+                          'processing' => 'Diproses',
+                          'shipped' => 'Dikirim',
+                          'delivered' => 'Selesai',
+                          'cancelled' => 'Dibatalkan'
+                      ];
+                    @endphp
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColors[$order->status] ?? 'bg-gray-100 text-gray-800' }}">
+                      {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
+                    </span>
                   </td>
 
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">

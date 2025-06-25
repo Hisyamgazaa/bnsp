@@ -18,7 +18,7 @@ class OrderManagementController extends Controller
         $orders = Order::with(['user', 'items.product'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
-        
+
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -53,7 +53,7 @@ class OrderManagementController extends Controller
     {
         // Delete order items first
         $order->items()->delete();
-        
+
         // Delete the order
         $order->delete();
 

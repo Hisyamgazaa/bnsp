@@ -97,7 +97,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <a href="{{ route('admin.orders.show', $order) }}" class="text-blue-600 hover:text-blue-900">View</a>
-                            
+
                             <!-- Status Update Form -->
                             <form action="{{ route('admin.orders.update-status', $order) }}" method="POST" class="inline">
                                 @csrf

@@ -23,6 +23,27 @@
                 🏦 Transfer Bank
               @endif
             </p>
+            <div class="mt-2">
+              @php
+                $statusColors = [
+                    'pending' => 'bg-yellow-100 text-yellow-800',
+                    'processing' => 'bg-blue-100 text-blue-800',
+                    'shipped' => 'bg-purple-100 text-purple-800',
+                    'delivered' => 'bg-green-100 text-green-800',
+                    'cancelled' => 'bg-red-100 text-red-800'
+                ];
+                $statusLabels = [
+                    'pending' => 'Menunggu',
+                    'processing' => 'Diproses',
+                    'shipped' => 'Dikirim',
+                    'delivered' => 'Selesai',
+                    'cancelled' => 'Dibatalkan'
+                ];
+              @endphp
+              <span class="px-3 py-1 inline-flex text-sm leading-5 font-medium rounded-full {{ $statusColors[$order->status] ?? 'bg-gray-100 text-gray-800' }}">
+                Status: {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
+              </span>
+            </div>
 
             <div class="mt-8">
               <a href="{{ route('checkout.invoice', $order) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300">

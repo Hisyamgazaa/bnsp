@@ -84,7 +84,18 @@
             Cash (Bayar di Tempat)
           @else
             Transfer Bank
-          @endif
+          @endif<br><br>
+          <strong>Status Order:</strong><br>
+          @php
+            $statusLabels = [
+                'pending' => 'Menunggu',
+                'processing' => 'Diproses',
+                'shipped' => 'Dikirim',
+                'delivered' => 'Selesai',
+                'cancelled' => 'Dibatalkan'
+            ];
+          @endphp
+          {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
         </td>
       </tr>
     </table>

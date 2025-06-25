@@ -7,7 +7,7 @@ use App\Models\OrderItem;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CheckoutController extends Controller
 {
@@ -51,7 +51,8 @@ class CheckoutController extends Controller
       'shipping_address' => $request->shipping_address,
       'phone_number' => $request->phone_number,
       'payment_method' => $request->payment_method,
-      'notes' => $request->notes
+      'notes' => $request->notes,
+      'status' => 'pending'
     ]);
 
     foreach ($cartItems as $item) {
