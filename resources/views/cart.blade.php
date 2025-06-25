@@ -13,6 +13,12 @@
       </div>
       @endif
 
+      @if (session('error'))
+      <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        {{ session('error') }}
+      </div>
+      @endif
+
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900">
           <h2 class="text-2xl font-semibold mb-6">Keranjang Belanja</h2>
@@ -51,9 +57,10 @@
                     @csrf
                     @method('PATCH')
                     <label for="quantity" class="text-sm text-gray-600">Jumlah:</label>
-                    <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
+                    <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock }}"
                       class="w-20 px-2 py-1 border rounded-md"
                       onchange="this.form.submit()">
+                    <span class="text-xs text-gray-500 ml-1">(Maks: {{ $item->product->stock }})</span>
                   </form>
 
                   <form action="{{ route('cart.remove', $item->id) }}" method="POST" class="ml-auto">

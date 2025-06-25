@@ -92,6 +92,7 @@
                       <h4 class="font-medium">{{ $item->product->name }}</h4>
                       <p class="text-sm text-gray-600">
                         {{ $item->quantity }} x Rp {{ number_format($item->product->price, 0, ',', '.') }}
+                        <span class="text-xs text-gray-500">(Stok tersedia: {{ $item->product->stock }})</span>
                       </p>
                     </div>
 

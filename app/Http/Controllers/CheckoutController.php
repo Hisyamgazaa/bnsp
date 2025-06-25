@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -42,10 +43,19 @@ class CheckoutController extends Controller
     }
 
     // Check if all products have sufficient stock
+    $stockIssues = [];
+
     foreach ($cartItems as $item) {
-      if ($item->quantity > $item->product->stock) {
-        return redirect()->route('cart')->with('error', 'Produk "' . $item->product->name . '" tidak memiliki stok yang cukup. Stok tersedia: ' . $item->product->stock);
+      // Re-verify stock at checkout time by fetching fresh product data
+      $product = Product::find($item->product_id);
+
+      if ($item->quantity > $product->stock) {
+        $stockIssues[] = 'Produk "' . $product->name . '" tidak memiliki stok yang cukup. Anda ingin memesan ' . $item->quantity . ', sedangkan stok tersedia hanya ' . $product->stock . '.';
       }
+    }
+
+    if (!empty($stockIssues)) {
+      return redirect()->route('cart')->with('error', implode('<br>', $stockIssues));
     }
 
     $totalAmount = $cartItems->sum(function ($item) {

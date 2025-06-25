@@ -35,7 +35,7 @@ class CartController extends Controller
     if ($existingCartItem) {
       // Check if incrementing quantity would exceed available stock
       if ($existingCartItem->quantity + 1 > $product->stock) {
-        return redirect()->back()->with('error', 'Stok produk tidak mencukupi. Stok tersedia: ' . $product->stock);
+        return redirect()->back()->with('error', 'Stok produk "' . $product->name . '" tidak mencukupi. Anda sudah memiliki ' . $existingCartItem->quantity . ' di keranjang, sedangkan stok tersedia hanya ' . $product->stock . '.');
       }
 
       $existingCartItem->increment('quantity');
@@ -72,8 +72,8 @@ class CartController extends Controller
     $product = Product::find($cartItem->product_id);
 
     // Check if the requested quantity exceeds available stock
-    if ($request->quantity > $product->stock) {
-      return redirect()->back()->with('error', 'Stok produk tidak mencukupi. Stok tersedia: ' . $product->stock);
+    if ((int)$request->quantity > $product->stock) {
+      return redirect()->back()->with('error', 'Stok produk "' . $product->name . '" tidak mencukupi. Stok tersedia hanya ' . $product->stock . '.');
     }
 
     $cartItem->update(['quantity' => $request->quantity]);
