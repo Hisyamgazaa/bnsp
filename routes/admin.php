@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\ProductManagementController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Authentication Routes
@@ -18,7 +19,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard routes (for backward compatibility)
     Route::get('orders', [AdminDashboardController::class, 'orders'])->name('orders');
-    Route::get('products', [AdminDashboardController::class, 'products'])->name('products');
 
     // User Management Routes
     Route::prefix('users')->name('users.')->group(function () {
@@ -30,6 +30,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
       Route::put('{user}', [UserManagementController::class, 'update'])->name('update');
       Route::delete('{user}', [UserManagementController::class, 'destroy'])->name('destroy');
       Route::patch('{user}/toggle-status', [UserManagementController::class, 'toggleStatus'])->name('toggle-status');
+    });
+
+    // Product Management Routes
+    Route::prefix('products')->name('products.')->group(function () {
+      Route::get('/', [ProductManagementController::class, 'index'])->name('index');
+      Route::get('create', [ProductManagementController::class, 'create'])->name('create');
+      Route::post('/', [ProductManagementController::class, 'store'])->name('store');
+      Route::get('{product}', [ProductManagementController::class, 'show'])->name('show');
+      Route::get('{product}/edit', [ProductManagementController::class, 'edit'])->name('edit');
+      Route::put('{product}', [ProductManagementController::class, 'update'])->name('update');
+      Route::delete('{product}', [ProductManagementController::class, 'destroy'])->name('destroy');
+      Route::patch('{product}/toggle-stock', [ProductManagementController::class, 'toggleStock'])->name('toggle-stock');
     });
   });
 });

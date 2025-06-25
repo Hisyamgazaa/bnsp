@@ -34,6 +34,13 @@ class AdminAuthController extends Controller
     if (Auth::attempt($credentials)) {
       $user = Auth::user();
 
+      if (!$user->is_active) {
+        Auth::logout();
+        return back()->withErrors([
+          'email' => 'Your account has been deactivated. Please contact administrator.',
+        ]);
+      }
+
       if ($user->isAdmin()) {
         $request->session()->regenerate();
         return redirect()->intended(route('admin.dashboard'));

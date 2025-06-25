@@ -18,7 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'active.user' => \App\Http\Middleware\CheckActiveUser::class,
         ]);
+        
+        // Apply CheckActiveUser middleware to authenticated routes
+        $middleware->appendToGroup('web', \App\Http\Middleware\CheckActiveUser::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
