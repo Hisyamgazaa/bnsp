@@ -18,13 +18,13 @@ class CheckActiveUser
     {
         if (Auth::check()) {
             $user = Auth::user();
-            
+
             // Check if user is inactive
             if (!$user->is_active) {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-                
+
                 // Redirect with message based on whether it's admin or regular user
                 if ($request->is('admin/*')) {
                     return redirect()->route('admin.login')

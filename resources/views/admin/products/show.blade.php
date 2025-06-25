@@ -23,7 +23,11 @@
             @if($product->image)
             <div class="bg-gray-50 p-6 rounded-lg">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Product Image</h3>
-                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover rounded-lg">
+                @if(Str::startsWith($product->image, ['http://', 'https://']))
+                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-64 object-cover rounded-lg">
+                @else
+                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover rounded-lg">
+                @endif
             </div>
             @endif
 

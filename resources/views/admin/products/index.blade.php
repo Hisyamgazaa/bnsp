@@ -55,7 +55,11 @@
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-12 w-12">
                                     @if($product->image)
-                                        <img class="h-12 w-12 rounded-lg object-cover" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                                        @if(Str::startsWith($product->image, ['http://', 'https://']))
+                                            <img class="h-12 w-12 rounded-lg object-cover" src="{{ $product->image }}" alt="{{ $product->name }}">
+                                        @else
+                                            <img class="h-12 w-12 rounded-lg object-cover" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                                        @endif
                                     @else
                                         <div class="h-12 w-12 rounded-lg bg-gray-300 flex items-center justify-center">
                                             <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
