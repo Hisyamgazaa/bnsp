@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_active')->default(true)->after('role');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])
+                ->default('pending')
+                ->after('payment_method');
         });
     }
 
@@ -21,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_active');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 };

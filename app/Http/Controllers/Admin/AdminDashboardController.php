@@ -37,12 +37,5 @@ class AdminDashboardController extends Controller
         return view('admin.products', compact('products'));
     }
 
-    /**
-     * Show orders management
-     */
-    public function orders(): View
-    {
-        $orders = Order::with('user')->latest()->paginate(15);
-        return view('admin.orders', compact('orders'));
-    }
+
 }

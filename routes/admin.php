@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\ProductManagementController;
+use App\Http\Controllers\Admin\OrderManagementController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Authentication Routes
@@ -17,8 +18,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-    // Dashboard routes (for backward compatibility)
-    Route::get('orders', [AdminDashboardController::class, 'orders'])->name('orders');
+    // Order Management Routes
+    Route::prefix('orders')->name('orders.')->group(function () {
+      Route::get('/', [OrderManagementController::class, 'index'])->name('index');
+      Route::get('{order}', [OrderManagementController::class, 'show'])->name('show');
+      Route::patch('{order}/status', [OrderManagementController::class, 'updateStatus'])->name('update-status');
+      Route::delete('{order}', [OrderManagementController::class, 'destroy'])->name('destroy');
+    });
 
     // User Management Routes
     Route::prefix('users')->name('users.')->group(function () {
