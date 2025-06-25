@@ -14,12 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create admin user
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'role' => 'admin',
+        ]);
+
+        // Create regular user
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'role' => 'user',
         ]);
 
         Product::factory(10)->create();
-    
+
     }
 }
