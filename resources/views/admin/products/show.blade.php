@@ -69,7 +69,9 @@
             <!-- Product Details -->
             <div class="bg-gray-50 p-6 rounded-lg {{ $product->image ? '' : 'lg:col-span-2' }}">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Description</h3>
-                <p class="text-gray-700 whitespace-pre-line">{{ $product->description }}</p>
+                <div class="prose max-w-none text-gray-700">
+                    {!! $product->description !!}
+                </div>
             </div>
 
             <!-- System Information -->

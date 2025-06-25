@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">{{ $product->name }}</div>
-                                    <div class="text-sm text-gray-500">{{ Str::limit($product->description, 50) }}</div>
+                                    <div class="text-sm text-gray-500">{{ Str::limit(strip_tags($product->description), 50) }}</div>
                                 </div>
                             </div>
                         </td>
