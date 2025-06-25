@@ -22,10 +22,21 @@ class CartController extends Controller
   public function addToCart(Request $request)
   {
     $product = Product::findOrFail($request->product_id);
+    $quantity = $request->input('quantity', 1);
+
+    // Validate quantity
+    if ($quantity < 1) {
+      return redirect()->back()->with('error', 'Jumlah produk harus minimal 1');
+    }
 
     // Check if product is in stock
     if ($product->stock <= 0) {
       return redirect()->back()->with('error', 'Produk tidak tersedia (stok habis)');
+    }
+
+    // Check if requested quantity exceeds available stock
+    if ($quantity > $product->stock) {
+      return redirect()->back()->with('error', 'Stok produk "' . $product->name . '" tidak mencukupi. Stok tersedia: ' . $product->stock);
     }
 
     $existingCartItem = CartItem::where('user_id', Auth::id())
@@ -34,16 +45,16 @@ class CartController extends Controller
 
     if ($existingCartItem) {
       // Check if incrementing quantity would exceed available stock
-      if ($existingCartItem->quantity + 1 > $product->stock) {
+      if ($existingCartItem->quantity + $quantity > $product->stock) {
         return redirect()->back()->with('error', 'Stok produk "' . $product->name . '" tidak mencukupi. Anda sudah memiliki ' . $existingCartItem->quantity . ' di keranjang, sedangkan stok tersedia hanya ' . $product->stock . '.');
       }
 
-      $existingCartItem->increment('quantity');
+      $existingCartItem->increment('quantity', $quantity);
     } else {
       CartItem::create([
         'user_id' => Auth::id(),
         'product_id' => $product->id,
-        'quantity' => 1
+        'quantity' => $quantity
       ]);
     }
 
@@ -72,7 +83,7 @@ class CartController extends Controller
     $product = Product::find($cartItem->product_id);
 
     // Check if the requested quantity exceeds available stock
-    if ((int)$request->quantity > $product->stock) {
+    if ((int) $request->quantity > $product->stock) {
       return redirect()->back()->with('error', 'Stok produk "' . $product->name . '" tidak mencukupi. Stok tersedia hanya ' . $product->stock . '.');
     }
 

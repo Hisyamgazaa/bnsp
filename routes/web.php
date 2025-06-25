@@ -11,6 +11,7 @@ Route::get('/home', function () {
   return view('home');
 })->middleware(['auth', 'verified', 'active.user', 'redirect.if.admin'])->name('home');
 Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->middleware(['auth', 'verified', 'active.user', 'redirect.if.admin'])->name('product');
+Route::get('/product/{id}', [App\Http\Controllers\ProductController::class, 'show'])->middleware(['auth', 'verified', 'active.user', 'redirect.if.admin'])->name('product.show');
 Route::middleware(['auth', 'verified', 'active.user', 'redirect.if.admin'])->group(function () {
   Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
   Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'addToCart'])->name('cart.add');
