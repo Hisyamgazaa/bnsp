@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\ProductManagementController;
 use App\Http\Controllers\Admin\OrderManagementController;
+use App\Http\Controllers\Admin\CategoryManagementController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Authentication Routes
@@ -48,6 +49,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
       Route::put('{product}', [ProductManagementController::class, 'update'])->name('update');
       Route::delete('{product}', [ProductManagementController::class, 'destroy'])->name('destroy');
       Route::patch('{product}/toggle-stock', [ProductManagementController::class, 'toggleStock'])->name('toggle-stock');
+    });
+
+    // Category Management Routes
+    Route::prefix('categories')->name('categories.')->group(function () {
+      Route::get('/', [CategoryManagementController::class, 'index'])->name('index');
+      Route::get('create', [CategoryManagementController::class, 'create'])->name('create');
+      Route::post('/', [CategoryManagementController::class, 'store'])->name('store');
+      Route::get('{category}', [CategoryManagementController::class, 'show'])->name('show');
+      Route::get('{category}/edit', [CategoryManagementController::class, 'edit'])->name('edit');
+      Route::put('{category}', [CategoryManagementController::class, 'update'])->name('update');
+      Route::delete('{category}', [CategoryManagementController::class, 'destroy'])->name('destroy');
+      Route::patch('{category}/toggle-status', [CategoryManagementController::class, 'toggleStatus'])->name('toggle-status');
     });
   });
 });

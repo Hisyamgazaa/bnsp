@@ -27,11 +27,7 @@
                   <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
                 @endif
               @else
-                <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
-                  <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                  </svg>
-                </div>
+                <img src="{{ asset('images/placeholder.svg') }}" alt="No image" class="w-full h-48 object-cover bg-gray-100">
               @endif
               <div class="p-4">
                 <h3 class="text-lg font-semibold mb-2">{{ $product->name }}</h3>
@@ -59,7 +55,7 @@
                   @endif
                 </form>
               </div>
-            </div>
+            </img>
             @endforeach
           </div>
           <div class="mt-6">

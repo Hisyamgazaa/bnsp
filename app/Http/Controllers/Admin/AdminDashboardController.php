@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Category;
 use Illuminate\View\View;
 
 class AdminDashboardController extends Controller
@@ -18,6 +19,7 @@ class AdminDashboardController extends Controller
         $stats = [
             'total_users' => User::where('role', 'user')->count(),
             'total_products' => Product::count(),
+            'total_categories' => Category::count(),
             'total_orders' => Order::count(),
             'total_revenue' => Order::sum('total_amount'),
         ];

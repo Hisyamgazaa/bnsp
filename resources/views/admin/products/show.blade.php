@@ -20,16 +20,18 @@
         <!-- Product Information -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Product Image -->
-            @if($product->image)
             <div class="bg-gray-50 p-6 rounded-lg">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Product Image</h3>
-                @if(Str::startsWith($product->image, ['http://', 'https://']))
-                    <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-64 object-cover rounded-lg">
+                @if($product->image)
+                    @if(Str::startsWith($product->image, ['http://', 'https://']))
+                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-64 object-cover rounded-lg">
+                    @else
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover rounded-lg">
+                    @endif
                 @else
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover rounded-lg">
+                    <img src="{{ asset('images/placeholder.svg') }}" alt="No image" class="w-full h-64 object-cover rounded-lg bg-gray-100">
                 @endif
             </div>
-            @endif
 
             <!-- Basic Information -->
             <div class="bg-gray-50 p-6 rounded-lg">

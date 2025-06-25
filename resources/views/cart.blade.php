@@ -41,11 +41,7 @@
                   <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="w-24 h-24 object-cover rounded-md">
                 @endif
               @else
-                <div class="w-24 h-24 bg-gray-200 flex items-center justify-center rounded-md">
-                  <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                  </svg>
-                </div>
+                <img src="{{ asset('images/placeholder.svg') }}" alt="No image" class="w-24 h-24 object-cover rounded-md bg-gray-100">
               @endif
 
               <div class="flex-1">

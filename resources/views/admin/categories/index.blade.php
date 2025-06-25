@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Product Management')
+@section('title', 'Category Management')
 
 @section('content')
 <!-- Success/Error Messages -->
@@ -18,9 +18,9 @@
 
 <div class="bg-white rounded-lg shadow">
     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-900">Product Management</h3>
-        <a href="{{ route('admin.products.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-            Add New Product
+        <h3 class="text-lg font-medium text-gray-900">Category Management</h3>
+        <a href="{{ route('admin.categories.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+            Add New Category
         </a>
     </div>
 
@@ -29,19 +29,16 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Product
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Category
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Price
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Stock
+                        Products Count
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Created
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
@@ -49,73 +46,76 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                @forelse($products as $product)
+                @forelse($categories as $category)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-12 w-12">
-                                    @if($product->image)
-                                        @if(Str::startsWith($product->image, ['http://', 'https://']))
-                                            <img class="h-12 w-12 rounded-lg object-cover" src="{{ $product->image }}" alt="{{ $product->name }}">
+                                    @if($category->image)
+                                        @if(Str::startsWith($category->image, ['http://', 'https://']))
+                                            <img class="h-12 w-12 rounded-lg object-cover" src="{{ $category->image }}" alt="{{ $category->name }}">
                                         @else
-                                            <img class="h-12 w-12 rounded-lg object-cover" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                                            <img class="h-12 w-12 rounded-lg object-cover" src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
                                         @endif
                                     @else
-                                        <img class="h-12 w-12 rounded-lg object-cover bg-gray-100" src="{{ asset('images/placeholder.svg') }}" alt="No image">
+                                        <div class="h-12 w-12 rounded-lg bg-gray-300 flex items-center justify-center">
+                                            <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                            </svg>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900">{{ $product->name }}</div>
-                                    <div class="text-sm text-gray-500">{{ Str::limit($product->description, 50) }}</div>
+                                    <div class="text-sm font-medium text-gray-900">{{ $category->name }}</div>
+                                    <div class="text-sm text-gray-500">{{ Str::limit($category->description, 50) ?? 'No description' }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                {{ $product->category }}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                {{ $category->products_count }} products
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $product->stock }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @if($product->stock > 0)
+                            @if($category->is_active)
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Available
+                                    Active
                                 </span>
                             @else
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    Out of Stock
+                                    Inactive
                                 </span>
                             @endif
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ $category->created_at->format('M d, Y') }}
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                            <a href="{{ route('admin.products.show', $product) }}" class="text-blue-600 hover:text-blue-900">View</a>
-                            <a href="{{ route('admin.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                            <a href="{{ route('admin.categories.show', $category) }}" class="text-blue-600 hover:text-blue-900">View</a>
+                            <a href="{{ route('admin.categories.edit', $category) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
 
-                            <form method="POST" action="{{ route('admin.products.toggle-stock', $product) }}" class="inline">
+                            <form method="POST" action="{{ route('admin.categories.toggle-status', $category) }}" class="inline">
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" class="text-yellow-600 hover:text-yellow-900">
-                                    {{ $product->stock > 0 ? 'Mark Out of Stock' : 'Restock' }}
+                                    {{ $category->is_active ? 'Deactivate' : 'Activate' }}
                                 </button>
                             </form>
 
-                            <form method="POST" action="{{ route('admin.products.destroy', $product) }}" class="inline"
-                                  onsubmit="return confirm('Are you sure you want to delete this product?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                            </form>
+                            @if($category->products_count == 0)
+                                <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" class="inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this category?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                            No products found
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                            No categories found
                         </td>
                     </tr>
                 @endforelse
@@ -124,9 +124,9 @@
     </div>
 
     <!-- Pagination -->
-    @if($products->hasPages())
+    @if($categories->hasPages())
         <div class="px-6 py-4 border-t border-gray-200">
-            {{ $products->links() }}
+            {{ $categories->links() }}
         </div>
     @endif
 </div>
