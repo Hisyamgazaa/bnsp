@@ -35,6 +35,16 @@
                     <p class="text-sm text-gray-600">Total</p>
                     <p class="font-medium">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
                   </div>
+                  <div>
+                    <p class="text-sm text-gray-600">Metode Pembayaran</p>
+                    <p class="font-medium">
+                      @if($order->payment_method == 'cash')
+                        💵 Cash (Bayar di Tempat)
+                      @else
+                        🏦 Transfer Bank
+                      @endif
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

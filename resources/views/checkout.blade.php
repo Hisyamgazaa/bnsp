@@ -42,6 +42,30 @@
                   <textarea name="notes" id="notes" rows="2"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('notes') }}</textarea>
                 </div>
+
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-700 mb-3">
+                    Metode Pembayaran
+                  </label>
+                  <div class="space-y-2">
+                    <div class="flex items-center">
+                      <input type="radio" id="payment_cash" name="payment_method" value="cash"
+                        class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
+                        {{ old('payment_method', 'cash') == 'cash' ? 'checked' : '' }} required>
+                      <label for="payment_cash" class="ml-3 block text-sm font-medium text-gray-700">
+                        💵 Cash (Bayar di Tempat)
+                      </label>
+                    </div>
+                    <div class="flex items-center">
+                      <input type="radio" id="payment_transfer" name="payment_method" value="transfer"
+                        class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
+                        {{ old('payment_method') == 'transfer' ? 'checked' : '' }}>
+                      <label for="payment_transfer" class="ml-3 block text-sm font-medium text-gray-700">
+                        🏦 Transfer Bank
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div>

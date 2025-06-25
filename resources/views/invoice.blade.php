@@ -78,7 +78,13 @@
       <tr>
         <td>
           <strong>Tanggal Order:</strong><br>
-          {{ $order->created_at->format('d/m/Y') }}
+          {{ $order->created_at->format('d/m/Y') }}<br><br>
+          <strong>Metode Pembayaran:</strong><br>
+          @if($order->payment_method == 'cash')
+            Cash (Bayar di Tempat)
+          @else
+            Transfer Bank
+          @endif
         </td>
       </tr>
     </table>

@@ -24,7 +24,7 @@
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
                             <a href="{{ route('admin.dashboard') }}">
-                                <h1 class="text-xl font-bold text-gray-900">Admin Panel</h1>
+                                <h1 class="text-xl font-bold text-gray-900">Syam Care</h1>
                             </a>
                         </div>
 

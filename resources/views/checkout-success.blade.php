@@ -16,6 +16,13 @@
 
             <h2 class="mt-4 text-2xl font-semibold">Pesanan Berhasil!</h2>
             <p class="mt-2 text-gray-600">Nomor Pesanan: {{ $order->order_number }}</p>
+            <p class="mt-1 text-gray-600">Metode Pembayaran:
+              @if($order->payment_method == 'cash')
+                💵 Cash (Bayar di Tempat)
+              @else
+                🏦 Transfer Bank
+              @endif
+            </p>
 
             <div class="mt-8">
               <a href="{{ route('checkout.invoice', $order) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300">

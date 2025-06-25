@@ -29,6 +29,7 @@ class CheckoutController extends Controller
     $request->validate([
       'shipping_address' => 'required|string',
       'phone_number' => 'required|string',
+      'payment_method' => 'required|in:cash,transfer',
       'notes' => 'nullable|string'
     ]);
 
@@ -49,6 +50,7 @@ class CheckoutController extends Controller
       'total_amount' => $totalAmount,
       'shipping_address' => $request->shipping_address,
       'phone_number' => $request->phone_number,
+      'payment_method' => $request->payment_method,
       'notes' => $request->notes
     ]);
 

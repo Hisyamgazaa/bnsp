@@ -14,6 +14,7 @@ class Order extends Model
     'total_amount',
     'shipping_address',
     'phone_number',
+    'payment_method',
     'notes'
   ];
 
