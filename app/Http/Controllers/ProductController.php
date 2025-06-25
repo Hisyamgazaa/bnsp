@@ -12,10 +12,4 @@ class ProductController extends Controller
     $products = Product::where('stock', '>', 0)->paginate(8);
     return view('product', compact('products'));
   }
-
-  public function detail($id)
-  {
-    $product = Product::findOrFail($id);
-    return view('product-detail', compact('product'));
-  }
 }

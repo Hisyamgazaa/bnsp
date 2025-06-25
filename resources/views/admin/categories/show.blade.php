@@ -41,15 +41,7 @@
 
                         <div>
                             <dt class="text-sm font-medium text-gray-500">Description</dt>
-                            <dd class="mt-1 text-sm text-gray-900">
-                                @if($category->description)
-                                    <div class="prose prose-sm max-w-none">
-                                        {!! $category->description !!}
-                                    </div>
-                                @else
-                                    No description provided
-                                @endif
-                            </dd>
+                            <dd class="mt-1 text-sm text-gray-900">{{ $category->description ?? 'No description provided' }}</dd>
                         </div>
 
                         <div>
@@ -155,7 +147,7 @@
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">{{ $product->name }}</div>
-                                            <div class="text-sm text-gray-500">{{ Str::limit(strip_tags($product->description), 30) }}</div>
+                                            <div class="text-sm text-gray-500">{{ Str::limit($product->description, 30) }}</div>
                                         </div>
                                     </div>
                                 </td>

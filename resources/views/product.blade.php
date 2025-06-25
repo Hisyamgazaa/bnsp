@@ -31,33 +31,29 @@
               @endif
               <div class="p-4">
                 <h3 class="text-lg font-semibold mb-2">{{ $product->name }}</h3>
-                <div class="flex items-center justify-between mb-3">
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ $product->description }}</p>
+                <div class="flex items-center justify-between">
                   <span class="text-blue-600 font-semibold">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
                   <span class="text-sm text-gray-500">Stok: {{ $product->stock }}</span>
                 </div>
-                <div class="mb-4">
+                <div class="mt-4">
                   <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">
                     {{ $product->category }}
                   </span>
                 </div>
-                <div class="space-y-2">
-                  <a href="{{ route('product.detail', $product->id) }}" class="block w-full text-center bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition-colors duration-300">
-                    Lihat Detail
-                  </a>
-                  <form action="{{ route('cart.add') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    @if($product->stock > 0)
-                      <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300">
-                        Tambah ke Keranjang
-                      </button>
-                    @else
-                      <button type="button" disabled class="w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed">
-                        Stok Habis
-                      </button>
-                    @endif
-                  </form>
-                </div>
+                <form action="{{ route('cart.add') }}" method="POST">
+                  @csrf
+                  <input type="hidden" name="product_id" value="{{ $product->id }}">
+                  @if($product->stock > 0)
+                    <button type="submit" class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300">
+                      Tambah ke Keranjang
+                    </button>
+                  @else
+                    <button type="button" disabled class="mt-4 w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed">
+                      Stok Habis
+                    </button>
+                  @endif
+                </form>
               </div>
             </img>
             @endforeach

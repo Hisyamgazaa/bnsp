@@ -41,18 +41,18 @@
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
                                     @if($product->image)
-                                        @if(Str::startsWith($product->image, ['http://', 'https://']))
-                                            <img class="h-10 w-10 rounded-full object-cover" src="{{ $product->image }}" alt="{{ $product->name }}">
-                                        @else
-                                            <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-                                        @endif
+                                        <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                                     @else
-                                        <img class="h-10 w-10 rounded-full object-cover bg-gray-100" src="{{ asset('images/placeholder.svg') }}" alt="No image">
+                                        <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                            <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                            </svg>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">{{ $product->name }}</div>
-                                    <div class="text-sm text-gray-500">{{ Str::limit(strip_tags($product->description), 30) }}</div>
+                                    <div class="text-sm text-gray-500">{{ Str::limit($product->description, 50) }}</div>
                                 </div>
                             </div>
                         </td>

@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">{{ $category->name }}</div>
-                                    <div class="text-sm text-gray-500">{{ Str::limit(strip_tags($category->description), 50) ?? 'No description' }}</div>
+                                    <div class="text-sm text-gray-500">{{ Str::limit($category->description, 50) ?? 'No description' }}</div>
                                 </div>
                             </div>
                         </td>
