@@ -29,15 +29,6 @@ class AdminDashboardController extends Controller
     }
 
     /**
-     * Show users management
-     */
-    public function users(): View
-    {
-        $users = User::where('role', 'user')->paginate(15);
-        return view('admin.users', compact('users'));
-    }
-
-    /**
      * Show products management
      */
     public function products(): View
