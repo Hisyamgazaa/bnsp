@@ -28,6 +28,11 @@ class Order extends Model
     return $this->hasMany(OrderItem::class);
   }
 
+  public function orderItems(): HasMany
+  {
+    return $this->hasMany(OrderItem::class);
+  }
+
   protected static function boot()
   {
     parent::boot();
