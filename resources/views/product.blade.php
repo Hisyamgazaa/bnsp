@@ -19,6 +19,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach ($products as $product)
+            @if($product->stock > 0)
             <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
               @if($product->image)
                 @if(Str::startsWith($product->image, ['http://', 'https://']))
@@ -48,12 +49,19 @@
                 <form action="{{ route('cart.add') }}" method="POST">
                   @csrf
                   <input type="hidden" name="product_id" value="{{ $product->id }}">
-                  <button type="submit" class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300">
-                    Tambah ke Keranjang
-                  </button>
+                  @if($product->stock > 0)
+                    <button type="submit" class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300">
+                      Tambah ke Keranjang
+                    </button>
+                  @else
+                    <button type="button" disabled class="mt-4 w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed">
+                      Stok Habis
+                    </button>
+                  @endif
                 </form>
               </div>
             </div>
+            @endif
             @endforeach
           </div>
           <div class="mt-6">
