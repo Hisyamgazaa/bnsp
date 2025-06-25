@@ -22,11 +22,22 @@ class CartController extends Controller
   public function addToCart(Request $request)
   {
     $product = Product::findOrFail($request->product_id);
+
+    // Check if product is in stock
+    if ($product->stock <= 0) {
+      return redirect()->back()->with('error', 'Produk tidak tersedia (stok habis)');
+    }
+
     $existingCartItem = CartItem::where('user_id', Auth::id())
       ->where('product_id', $product->id)
       ->first();
 
     if ($existingCartItem) {
+      // Check if incrementing quantity would exceed available stock
+      if ($existingCartItem->quantity + 1 > $product->stock) {
+        return redirect()->back()->with('error', 'Stok produk tidak mencukupi. Stok tersedia: ' . $product->stock);
+      }
+
       $existingCartItem->increment('quantity');
     } else {
       CartItem::create([
@@ -52,9 +63,20 @@ class CartController extends Controller
       'quantity' => 'required|integer|min:1'
     ]);
 
-    CartItem::where('user_id', Auth::id())
-      ->where('id', $id)
-      ->update(['quantity' => $request->quantity]);
+    $cartItem = CartItem::where('user_id', Auth::id())->where('id', $id)->first();
+
+    if (!$cartItem) {
+      return redirect()->back()->with('error', 'Item tidak ditemukan');
+    }
+
+    $product = Product::find($cartItem->product_id);
+
+    // Check if the requested quantity exceeds available stock
+    if ($request->quantity > $product->stock) {
+      return redirect()->back()->with('error', 'Stok produk tidak mencukupi. Stok tersedia: ' . $product->stock);
+    }
+
+    $cartItem->update(['quantity' => $request->quantity]);
 
     return redirect()->back()->with('success', 'Jumlah produk berhasil diperbarui');
   }

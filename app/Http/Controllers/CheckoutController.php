@@ -41,33 +41,54 @@ class CheckoutController extends Controller
       return redirect()->route('cart')->with('error', 'Keranjang belanja Anda kosong');
     }
 
+    // Check if all products have sufficient stock
+    foreach ($cartItems as $item) {
+      if ($item->quantity > $item->product->stock) {
+        return redirect()->route('cart')->with('error', 'Produk "' . $item->product->name . '" tidak memiliki stok yang cukup. Stok tersedia: ' . $item->product->stock);
+      }
+    }
+
     $totalAmount = $cartItems->sum(function ($item) {
       return $item->product->price * $item->quantity;
     });
 
-    $order = Order::create([
-      'user_id' => Auth::id(),
-      'total_amount' => $totalAmount,
-      'shipping_address' => $request->shipping_address,
-      'phone_number' => $request->phone_number,
-      'payment_method' => $request->payment_method,
-      'notes' => $request->notes,
-      'status' => 'pending'
-    ]);
+    // Begin a database transaction for order creation and stock updates
+    \DB::beginTransaction();
 
-    foreach ($cartItems as $item) {
-      OrderItem::create([
-        'order_id' => $order->id,
-        'product_id' => $item->product_id,
-        'quantity' => $item->quantity,
-        'price' => $item->product->price
+    try {
+      $order = Order::create([
+        'user_id' => Auth::id(),
+        'total_amount' => $totalAmount,
+        'shipping_address' => $request->shipping_address,
+        'phone_number' => $request->phone_number,
+        'payment_method' => $request->payment_method,
+        'notes' => $request->notes,
+        'status' => 'pending'
       ]);
+
+      foreach ($cartItems as $item) {
+        // Create order item
+        OrderItem::create([
+          'order_id' => $order->id,
+          'product_id' => $item->product_id,
+          'quantity' => $item->quantity,
+          'price' => $item->product->price
+        ]);
+
+        // Reduce product stock
+        $item->product->decrement('stock', $item->quantity);
+      }
+
+      // Clear the cart
+      CartItem::where('user_id', Auth::id())->delete();
+
+      \DB::commit();
+
+      return redirect()->route('checkout.success', $order)->with('success', 'Pesanan berhasil dibuat');
+    } catch (\Exception $e) {
+      \DB::rollBack();
+      return redirect()->route('cart')->with('error', 'Terjadi kesalahan saat memproses pesanan. Silakan coba lagi.');
     }
-
-    // Clear the cart
-    CartItem::where('user_id', Auth::id())->delete();
-
-    return redirect()->route('checkout.success', $order)->with('success', 'Pesanan berhasil dibuat');
   }
 
   public function success(Order $order)
@@ -81,7 +102,8 @@ class CheckoutController extends Controller
 
   public function invoice(Order $order)
   {
-    if ($order->user_id !== Auth::id()) {
+    // Allow access for admin users (role = admin) or the order owner
+    if (!Auth::user()->isAdmin() && $order->user_id !== Auth::id()) {
       abort(403);
     }
 

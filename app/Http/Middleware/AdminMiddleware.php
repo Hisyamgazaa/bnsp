@@ -21,7 +21,11 @@ class AdminMiddleware
         }
 
         if (!Auth::user()->isAdmin()) {
-            abort(403, 'Access denied. Admin access required.');
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->route('admin.login')
+                ->withErrors(['email' => 'Access denied. Admin privileges required.']);
         }
 
         return $next($request);

@@ -48,9 +48,15 @@
                 <form action="{{ route('cart.add') }}" method="POST">
                   @csrf
                   <input type="hidden" name="product_id" value="{{ $product->id }}">
-                  <button type="submit" class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300">
-                    Tambah ke Keranjang
-                  </button>
+                  @if($product->stock > 0)
+                    <button type="submit" class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300">
+                      Tambah ke Keranjang
+                    </button>
+                  @else
+                    <button type="button" disabled class="mt-4 w-full bg-gray-400 text-white py-2 px-4 rounded-md cursor-not-allowed">
+                      Stok Habis
+                    </button>
+                  @endif
                 </form>
               </div>
             </div>
