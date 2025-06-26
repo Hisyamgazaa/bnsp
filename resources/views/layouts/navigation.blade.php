@@ -92,6 +92,22 @@
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('product')" :active="request()->routeIs('product')">
+                {{ __('Product') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('cart')" :active="request()->routeIs('cart')" class="relative">
+                <span class="flex items-center">
+                    {{ __('Cart') }}
+                    @if($cartItemsCount > 0)
+                    <span class="ml-2 inline-flex items-center justify-center min-w-[1.5rem] px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                        {{ $cartItemsCount }}
+                    </span>
+                    @endif
+                </span>
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('history')" :active="request()->routeIs('history')">
+                {{ __('History') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

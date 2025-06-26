@@ -5,35 +5,35 @@
     </h2>
   </x-slot>
 
-  <div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+  <div class="py-6 sm:py-8 lg:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       @if (session('success'))
-      <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+      <div class="mb-4 p-3 sm:p-4 bg-green-100 border border-green-400 text-green-700 rounded text-sm sm:text-base">
         {{ session('success') }}
       </div>
       @endif
 
       @if (session('error'))
-      <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+      <div class="mb-4 p-3 sm:p-4 bg-red-100 border border-red-400 text-red-700 rounded text-sm sm:text-base">
         {{ session('error') }}
       </div>
       @endif
 
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-        <div class="p-6 text-gray-900">
+        <div class="p-4 sm:p-6 text-gray-900">
           <!-- Breadcrumb -->
-          <nav class="mb-6">
-            <ol class="flex items-center space-x-2 text-sm">
+          <nav class="mb-4 sm:mb-6">
+            <ol class="flex items-center space-x-2 text-xs sm:text-sm">
               <li><a href="{{ route('product') }}" class="text-blue-600 hover:text-blue-800">Products</a></li>
               <li class="text-gray-500">/</li>
-              <li class="text-gray-700">{{ $product->name }}</li>
+              <li class="text-gray-700 truncate">{{ $product->name }}</li>
             </ol>
           </nav>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             <!-- Product Image -->
             <div class="space-y-4">
-              <div class="aspect-square w-full max-w-md mx-auto">
+              <div class="aspect-square w-full max-w-sm sm:max-w-md mx-auto">
                 @if($product->image)
                   @if(Str::startsWith($product->image, ['http://', 'https://']))
                     <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-full object-cover rounded-lg shadow-md">
@@ -47,22 +47,22 @@
             </div>
 
             <!-- Product Details -->
-            <div class="space-y-6">
+            <div class="space-y-4 sm:space-y-6">
               <div>
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $product->name }}</h1>
-                <div class="flex items-center space-x-4 mb-4">
-                  <span class="text-2xl font-semibold text-blue-600">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
-                  <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">{{ $product->name }}</h1>
+                <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 mb-3 sm:mb-4">
+                  <span class="text-xl sm:text-2xl font-semibold text-blue-600">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                  <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs sm:text-sm font-semibold text-gray-600">
                     {{ $product->category->name ?? $product->category }}
                   </span>
                 </div>
               </div>
 
               <!-- Stock Information -->
-              <div class="bg-gray-50 rounded-lg p-4">
+              <div class="bg-gray-50 rounded-lg p-3 sm:p-4">
                 <div class="flex items-center justify-between">
-                  <span class="text-gray-700 font-medium">Stok Tersedia:</span>
-                  <span class="text-lg font-semibold {{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
+                  <span class="text-sm sm:text-base text-gray-700 font-medium">Stok Tersedia:</span>
+                  <span class="text-base sm:text-lg font-semibold {{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
                     {{ $product->stock }}
                   </span>
                 </div>
